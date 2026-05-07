@@ -3,28 +3,612 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>anindaray.com</title>
-  <meta name="robots" content="noindex">
+  <title>Aninda Ray</title>
+  <meta name="description" content="Aninda Ray — engineer. Public research and patents.">
+  <meta name="robots" content="index, follow, noarchive">
+  <link rel="canonical" href="https://anindaray.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Aninda Ray">
+  <meta property="og:url" content="https://anindaray.com/">
+  <meta property="og:title" content="Aninda Ray">
+  <meta property="og:description" content="Engineering manager and researcher. Patents in web infrastructure, search, and offline-first single-page applications. Recent research on quality-gated runtimes for multi-agent LLM pipelines.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Aninda Ray">
+  <meta name="twitter:description" content="Patents in web infrastructure, search, and offline-first SPAs. Recent research on quality-gated multi-agent LLM runtimes.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script type="module" src="/main.js" defer></script>
   <style>
-    html, body { margin: 0; height: 100%; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      display: grid; place-items: center;
-      background: #fdfcfa; color: #1c1c1a;
+    /* === Tokens === */
+    :root {
+      --bg: #fdfcfa;
+      --surface: #ffffff;
+      --text: #1c1c1a;
+      --text-muted: #6b6a64;
+      --text-faint: #5d5b54;
+      --rule: rgba(28, 28, 26, 0.10);
+      --accent: #1f4ec5;
+      --focus: #ff6b00;
+
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Iowan Old Style", "Charter", Georgia, Cambria, serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+      --space-1: 0.5rem;
+      --space-2: 0.75rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
     }
-    main { text-align: center; padding: 2rem; }
-    h1 { font-size: 1.25rem; font-weight: 500; margin: 0 0 0.5rem; }
-    p { font-size: 0.9rem; color: #6b6a64; margin: 0; }
     @media (prefers-color-scheme: dark) {
-      body { background: #14140f; color: #ebe9e2; }
-      p { color: #908d83; }
+      :root {
+        --bg: #14140f;
+        --surface: #1c1c17;
+        --text: #ebe9e2;
+        --text-muted: #908d83;
+        --text-faint: #c0bdb1;
+        --rule: rgba(235, 233, 226, 0.12);
+        --accent: #7da9ff;
+        --focus: #ffb44f;
+      }
     }
+
+    /* === Reset / base === */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 14px/1.5 var(--sans);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, p, ul, figure { margin: 0; }
+    ul { list-style: none; padding: 0; }
+    a {
+      color: var(--accent);
+      text-decoration-color: color-mix(in srgb, var(--accent) 30%, transparent);
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+    }
+    a:hover { text-decoration-color: var(--accent); }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+      border-radius: 1px;
+    }
+
+    /* === Utilities === */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute;
+      top: -40px; left: var(--space-3);
+      background: var(--surface);
+      color: var(--text);
+      padding: var(--space-1) var(--space-3);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      text-decoration: none;
+      z-index: 10;
+    }
+    .skip-link:focus { top: var(--space-2); }
+
+    /* === Page shell === */
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: var(--space-5) var(--space-4);
+      display: grid;
+      grid-template-columns: 280px minmax(0, 680px);
+      column-gap: var(--space-6);
+      align-items: start;
+    }
+
+    /* === Sidebar === */
+    .sidebar {
+      position: sticky;
+      top: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .nameplate {
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin: 0 0 var(--space-1);
+    }
+    .sidebar ul li {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+    .sidebar ul li + li { margin-top: 4px; }
+    .sidebar a { color: var(--text-muted); }
+    .sidebar a:hover { color: var(--accent); }
+    .identifiers .label {
+      font: 400 11px/1.4 var(--mono);
+      color: var(--text-faint);
+      letter-spacing: 0.02em;
+      margin-right: 4px;
+    }
+    .identifiers a {
+      font: 400 11px/1.4 var(--mono);
+    }
+    /* === Main column === */
+    main { min-width: 0; }
+    .hero {
+      margin-bottom: var(--space-4);
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin: 0 0 6px;
+      color: var(--text);
+    }
+    .hero .lede {
+      font-size: 14px;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .about {
+      margin-bottom: var(--space-6);
+    }
+    .about p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text);
+      margin-bottom: var(--space-3);
+    }
+    .about p:last-child { margin-bottom: 0; }
+    .entries + .entries { margin-top: var(--space-6); }
+    .entries > h2 {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: var(--space-3);
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--rule);
+    }
+    .entry {
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .entry:last-child { border-bottom: 0; }
+    .entry-title {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+    .entry-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .entry-title a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+    .entry-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .entry-meta {
+      font: 400 11px/1.4 var(--mono);
+      color: var(--text-faint);
+      letter-spacing: 0.02em;
+    }
+    .entry-meta .sep {
+      margin: 0 6px;
+      color: var(--text-faint);
+      opacity: 0.6;
+    }
+    .entry-meta .preview-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 120ms ease;
+    }
+    .entry-meta .preview-link:hover { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    .entry-meta .preview-link .arrow { display: inline-block; transition: transform 160ms ease; }
+    .entry-meta .preview-link:hover .arrow { transform: translate(1px, -1px); }
+    @media (prefers-reduced-motion: reduce) {
+      .entry-meta .preview-link, .entry-meta .preview-link .arrow { transition: none; }
+    }
+
+    /* === Mobile === */
+    @media (max-width: 720px) {
+      .page {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: var(--space-5);
+        padding: var(--space-4) var(--space-3);
+      }
+      .sidebar {
+        position: static;
+        gap: var(--space-3);
+      }
+    }
+
+    /* === Reduced motion === */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* === Modal === */
+    #doc-modal {
+      margin: 0;
+      margin-left: auto;
+      width: min(960px, 75vw);
+      max-width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      border: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: auto;
+      box-shadow: -1px 0 0 var(--rule);
+    }
+    #doc-modal::backdrop {
+      background: rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(0.5px);
+      -webkit-backdrop-filter: blur(0.5px);
+    }
+    @media (prefers-color-scheme: dark) {
+      #doc-modal::backdrop { background: rgba(0, 0, 0, 0.5); }
+    }
+    #doc-modal[open] { animation: modal-slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+    @keyframes modal-slide-in {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .modal-progress {
+      position: absolute;
+      top: 0; left: 0;
+      height: 2px;
+      width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left center;
+      z-index: 2;
+      transition: transform 80ms linear;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: 0;
+      width: 32px;
+      height: 32px;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 3;
+      font-family: inherit;
+    }
+    .modal-close:hover { color: var(--text); background: var(--rule); }
+    .modal-scroll {
+      height: 100%;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: var(--space-6) var(--space-5);
+      scroll-behavior: smooth;
+    }
+    .modal-content { max-width: 56ch; margin: 0 auto; }
+    .modal-loading {
+      color: var(--text-faint);
+      font: 400 12px/1.4 var(--mono);
+      text-align: center;
+      margin-top: var(--space-5);
+    }
+    .doc-header h1 {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -0.005em;
+      margin: 0 0 var(--space-3);
+    }
+    .doc-meta {
+      font: 400 11px/1.5 var(--mono);
+      color: var(--text-faint);
+      margin: 0 0 var(--space-5);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 18px;
+    }
+    .doc-meta div { display: inline; }
+    .doc-meta dt {
+      display: inline;
+      margin-right: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .doc-meta dd { display: inline; margin: 0; color: var(--text-muted); }
+    .doc-body p {
+      font-size: 14px;
+      line-height: 1.65;
+      margin: 0 0 var(--space-3);
+    }
+    .doc-figure { margin: var(--space-3) 0 var(--space-4); }
+    .doc-figure img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 4px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .doc-figure img { filter: invert(0.92) hue-rotate(180deg); }
+    }
+    .doc-tldr {
+      font-family: var(--serif);
+      font-size: 17px !important;
+      line-height: 1.45 !important;
+      color: var(--text);
+      padding: var(--space-2) var(--space-3);
+      border-left: 2px solid var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, transparent);
+      border-radius: 0 4px 4px 0;
+      margin-bottom: var(--space-4) !important;
+    }
+    .doc-tldr em { font-style: italic; }
+    .doc-stats {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-3) 0 var(--space-4);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+    }
+    .doc-stats li {
+      padding: 12px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 11.5px;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+    .nowrap { white-space: nowrap; }
+    .doc-related {
+      font-size: 12.5px !important;
+      color: var(--text-muted);
+      padding-top: var(--space-2);
+      margin-top: var(--space-2) !important;
+      border-top: 1px dashed var(--rule);
+    }
+    .doc-related a { color: var(--text-muted); text-decoration-color: var(--rule); }
+    .doc-related a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+    .doc-actions {
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--rule);
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .open-canonical {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: filter 120ms ease;
+    }
+    .open-canonical:hover { filter: brightness(1.08); }
+    .open-canonical:hover .arrow { transform: translate(2px, -2px); }
+    .open-canonical .arrow { display: inline-block; transition: transform 160ms ease; }
+    @media (prefers-color-scheme: dark) { .open-canonical { color: var(--bg); } }
+    @media (max-width: 720px) {
+      #doc-modal {
+        width: 100vw;
+        margin: 0;
+      }
+      #doc-modal[open] { animation: modal-slide-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+      @keyframes modal-slide-up {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
+      .modal-scroll { padding: var(--space-4) var(--space-3); }
+    }
+
+    /* === Increased contrast (user-requested) === */
+    @media (prefers-contrast: more) {
+      :root {
+        --text-faint: #4a4942;
+        --text-muted: #2d2c28;
+        --rule: rgba(28, 28, 26, 0.32);
+      }
+    }
+    @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+      :root {
+        --text-faint: #d4d0c5;
+        --text-muted: #ebe7dc;
+        --rule: rgba(235, 233, 226, 0.32);
+      }
+    }
+    /* === Forced colors (Windows High Contrast Mode) === */
+    @media (forced-colors: active) {
+      body { background: Canvas; color: CanvasText; }
+      .entry-meta, .doc-meta, .doc-meta dt, .doc-meta dd { color: CanvasText; forced-color-adjust: none; }
+      a, .preview-link, .open-link { color: LinkText; }
+      .doc-tldr { background: Canvas; color: CanvasText; border-left-color: Highlight; }
+      .doc-stats li { border-color: CanvasText; }
+      .stat-num { color: Highlight; }
+      .open-canonical { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+      #doc-modal { border-left: 1px solid CanvasText; background: Canvas; }
+      .modal-progress { background: Highlight; }
+      .doc-figure img { forced-color-adjust: none; }
+    }
+
   </style>
 </head>
 <body>
-  <main>
-    <h1>anindaray.com</h1>
-    <p>Site under construction.</p>
-  </main>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="page">
+    <div class="sidebar">
+      <p class="nameplate" data-nosnippet>Aninda Ray</p>
+
+      <section class="background" aria-label="Background">
+        <p class="section-label">Background</p>
+        <ul>
+          <li>Group Engineering Manager, Microsoft</li>
+          <li>M.S. Computer Science, Georgia Institute of Technology</li>
+        </ul>
+      </section>
+
+      <section class="identifiers" aria-label="Identifiers" data-nosnippet>
+        <p class="section-label">Identifiers</p>
+        <ul>
+          <li><a href="https://orcid.org/0009-0007-3029-8265" rel="me"><span class="label">ORCID</span>0009-0007-3029-8265</a></li>
+        </ul>
+      </section>
+
+    </div>
+
+    <main id="main">
+      <header class="hero" data-nosnippet>
+        <h1>Engineer. Permanent student.</h1>
+        <p class="lede">Owns more keyboards than necessary.</p>
+      </header>
+
+      <section class="about" aria-label="About">
+        <p>Nearly two decades shipping large-scale enterprise software. Roughly half of those leading high-performing teams that build it. The work lives inside the productivity software people rely on every day to do their jobs, with resilience built into the product.</p>
+        <p>Recurring themes: Information Portals, search and intelligence, and advancing the web platform in ways that have earned more than a dozen granted patents. All of it serves the same people: information workers in their daily flow, frontline workers connecting from wherever they happen to be, IT admins stewarding it inside their organizations, and the developer community extending the platform.</p>
+        <p>Lately, AI — as a way to find, ask, and reason over the information work depends on, and as a foundation people can build their own tools and agents on.</p>
+      </section>
+
+      <section class="entries research" aria-labelledby="research-heading">
+        <h2 id="research-heading">Research</h2>
+        <ul>
+          <li class="entry">
+            <h3 class="entry-title">
+              <a href="https://arxiv.org/abs/2605.00410" target="_blank" rel="noopener noreferrer">Agent Capsules: Quality-gated granularity control for multi-agent LLM pipelines</a>
+            </h3>
+            <p class="entry-desc">An execution runtime for multi-agent LLM systems that decides when to merge agent calls for efficiency, gates each merge on output quality, and falls back to per-agent dispatch when quality drops.</p>
+            <p class="entry-meta">arXiv 2605.00410<span class="sep">·</span>cs.CL, cs.AI<span class="sep">·</span>May 2026<span class="sep">·</span><a class="preview-link" href="/research/agent-capsules">Preview <span class="arrow">↗</span></a></p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="entries patents" aria-labelledby="patents-heading">
+        <h2 id="patents-heading">Patents</h2>
+        <ul>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US12278881" target="_blank" rel="noopener noreferrer">Domain agnostic offline runtime for single page applications</a></h3>
+            <p class="entry-desc">Lets multiple single-page web apps keep working offline, even across different domains, without each app needing to ship its own offline plumbing.</p>
+            <p class="entry-meta">Patent 12,278,881<span class="sep">·</span>Apr 2025<span class="sep">·</span>8 inventors<span class="sep">·</span><a class="preview-link" href="/patent/12278881">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US11936747" target="_blank" rel="noopener noreferrer">Cloud-based composable data layer</a></h3>
+            <p class="entry-desc">A single composite request lets a client app pull data from multiple backend services at once, with each service streaming its response on the same connection.</p>
+            <p class="entry-meta">Patents 11,936,747 (Mar 2024), 11,418,621 (Aug 2022)<span class="sep">·</span>5 inventors<span class="sep">·</span><a class="preview-link" href="/patent/11936747">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US11636035" target="_blank" rel="noopener noreferrer">Persisted data cache service</a></h3>
+            <p class="entry-desc">Lets multiple single-page web apps on the same device share one client-side cache, instead of each shipping its own.</p>
+            <p class="entry-meta">Patents 11,636,035 (Apr 2023), EP 4,189,557 (Mar 2026)<span class="sep">·</span>7 inventors<span class="sep">·</span><a class="preview-link" href="/patent/11636035">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US11553030" target="_blank" rel="noopener noreferrer">Service worker configured to serve multiple single page applications</a></h3>
+            <p class="entry-desc">A single service worker handles offline, caching, and routing for multiple single-page apps on the same website, instead of each app registering its own.</p>
+            <p class="entry-meta">Patents 11,553,030 (Jan 2023), EP 4,158,877 (Sep 2024)<span class="sep">·</span>6 inventors<span class="sep">·</span><a class="preview-link" href="/patent/11553030">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US11126592" target="_blank" rel="noopener noreferrer">Rapid indexing of document tags</a></h3>
+            <p class="entry-desc">Indexes document tags using both text and graph storage, so adding or changing a tag is immediately searchable without re-scanning every document.</p>
+            <p class="entry-meta">Patent 11,126,592<span class="sep">·</span>Sep 2021<span class="sep">·</span>8 inventors<span class="sep">·</span><a class="preview-link" href="/patent/11126592">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US10963528" target="_blank" rel="noopener noreferrer">Personalized content suggestions in computer networks</a></h3>
+            <p class="entry-desc">A search engine that builds content suggestions from an interaction graph anchored on the member, including items reachable through indirect graph connections rather than only items tied to the member's own activity.</p>
+            <p class="entry-meta">Patents 10,963,528 (Mar 2021), 10,423,683 (Sep 2019)<span class="sep">·</span>4 inventors<span class="sep">·</span><a class="preview-link" href="/patent/10963528">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US10839037" target="_blank" rel="noopener noreferrer">Connected application experience</a></h3>
+            <p class="entry-desc">A framework for single-page apps to share state, identity, and context, so moving between several apps feels like one continuous experience instead of jumping between disconnected ones.</p>
+            <p class="entry-meta">Patent 10,839,037<span class="sep">·</span>Nov 2020<span class="sep">·</span>8 inventors<span class="sep">·</span><a class="preview-link" href="/patent/10839037">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US10469611" target="_blank" rel="noopener noreferrer">Reduced page load time utilizing cache storage</a></h3>
+            <p class="entry-desc">Serves the last-known version of UI content immediately on page load, fetches the fresh version in the background, and updates the region in place when new data arrives.</p>
+            <p class="entry-meta">Patent 10,469,611<span class="sep">·</span>Nov 2019<span class="sep">·</span>7 inventors<span class="sep">·</span><a class="preview-link" href="/patent/10469611">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US9589072" target="_blank" rel="noopener noreferrer">Discovering expertise using document metadata in part to rank authors</a></h3>
+            <p class="entry-desc">Finds the in-house experts on a topic by analyzing the documents they have authored and the metadata on those documents, instead of relying on self-reported skills.</p>
+            <p class="entry-meta">Patent 9,589,072<span class="sep">·</span>Mar 2017<span class="sep">·</span>4 inventors<span class="sep">·</span><a class="preview-link" href="/patent/9589072">Preview <span class="arrow">↗</span></a></p>
+          </li>
+          <li class="entry">
+            <h3 class="entry-title"><a href="https://patents.google.com/patent/US8510322" target="_blank" rel="noopener noreferrer">Enriched search features based in part on discovering people-centric search intent</a></h3>
+            <p class="entry-desc">Recognizes when a search query is really about a person — even with misspellings or partial names — and surfaces the right person from the directory instead of returning generic web results.</p>
+            <p class="entry-meta">Patent 8,510,322<span class="sep">·</span>Aug 2013<span class="sep">·</span>3 inventors<span class="sep">·</span><a class="preview-link" href="/patent/8510322">Preview <span class="arrow">↗</span></a></p>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
 </body>
 </html>

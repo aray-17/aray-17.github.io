@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Capsules — Aninda Ray</title>
+  <meta name="description" content="A research paper on quality-gated granularity control for multi-agent LLM pipelines.">
+  <meta name="robots" content="index, follow, noarchive">
+  <link rel="canonical" href="https://anindaray.com/research/agent-capsules/">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root {
+      --bg: #fdfcfa;
+      --text: #1c1c1a;
+      --text-muted: #6b6a64;
+      --text-faint: #5d5b54;
+      --rule: rgba(28, 28, 26, 0.10);
+      --accent: #1f4ec5;
+      --focus: #ff6b00;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Iowan Old Style", "Charter", Georgia, Cambria, serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14140f;
+        --text: #ebe9e2;
+        --text-muted: #908d83;
+        --text-faint: #c0bdb1;
+        --rule: rgba(235, 233, 226, 0.12);
+        --accent: #7da9ff;
+        --focus: #ffb44f;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 14px/1.5 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 1px; }
+    .page-frame { max-width: 56ch; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .back-link { font-size: 13px; color: var(--text-muted); margin: 0 0 2rem; }
+    .back-link a { color: var(--text-muted); text-decoration: none; }
+    .back-link a:hover { color: var(--accent); }
+
+    /* === Increased contrast (user-requested) === */
+    @media (prefers-contrast: more) {
+      :root {
+        --text-faint: #4a4942;
+        --text-muted: #2d2c28;
+        --rule: rgba(28, 28, 26, 0.32);
+      }
+    }
+    @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+      :root {
+        --text-faint: #d4d0c5;
+        --text-muted: #ebe7dc;
+        --rule: rgba(235, 233, 226, 0.32);
+      }
+    }
+    /* === Forced colors (Windows High Contrast Mode) === */
+    @media (forced-colors: active) {
+      body { background: Canvas; color: CanvasText; }
+      .entry-meta, .doc-meta, .doc-meta dt, .doc-meta dd { color: CanvasText; forced-color-adjust: none; }
+      a, .preview-link, .open-link { color: LinkText; }
+      .doc-tldr { background: Canvas; color: CanvasText; border-left-color: Highlight; }
+      .doc-stats li { border-color: CanvasText; }
+      .stat-num { color: Highlight; }
+      .open-canonical { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+      #doc-modal { border-left: 1px solid CanvasText; background: Canvas; }
+      .modal-progress { background: Highlight; }
+      .doc-figure img { forced-color-adjust: none; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page-frame">
+    <p class="back-link"><a href="/">← Aninda Ray</a></p>
+    <main>
+      <article class="doc">
+        <header class="doc-header">
+          <h1>Agent Capsules: Quality-Gated Granularity Control for Multi-Agent LLM Pipelines</h1>
+          <dl class="doc-meta">
+            <div><dt>Author</dt><dd>Aninda Ray</dd></div>
+            <div><dt>Identifier</dt><dd>arXiv:2605.00410v1</dd></div>
+            <div><dt>Categories</dt><dd>cs.CL, cs.AI</dd></div>
+            <div><dt>Submitted</dt><dd>May 2026</dd></div>
+          </dl>
+        </header>
+
+        <div class="doc-body">
+          <p class="doc-tldr">A 14-agent pipeline runs at roughly half the input tokens with quality intact — by knowing when to step <em>back</em> from compound execution toward per-agent dispatch, rather than rewriting merged prompts.</p>
+
+          <p>Multi-agent LLM pipelines normally issue one call per agent. Compound execution merges agents into fewer calls to save tokens, but naive merging silently degrades quality through tool loss and prompt compression.</p>
+
+          <p>Agent Capsules treats execution as an optimization problem with empirical quality constraints. The runtime instruments coordination overhead per group, scores composition opportunity, picks among three execution modes (standard compound, two-phase compound, or sequential per-agent), and gates every mode switch on rolling-mean output quality. A controlled negative result confirms that injecting more context into a merged call worsens compression rather than relieving it — so the escalation ladder recovers quality by moving toward per-agent dispatch rather than rewriting merged prompts.</p>
+
+          <figure class="doc-figure">
+            <img loading="lazy" decoding="async" src="/research/agent-capsules/figures/fig_architecture.png" alt="Agent Capsules runtime: per-request data flow through compiler, executor, adapter, and provider; cross-request control loop from telemetry to evaluator to controller, feeding mode overrides back to the executor.">
+</figure>
+
+          <ul class="doc-stats" aria-label="Headline results">
+            <li>
+              <span class="stat-num">51%</span>
+              <span class="stat-label">fewer fine-mode input tokens vs. hand-crafted 14-agent LangGraph, at <span class="nowrap">+0.020</span> quality</span>
+            </li>
+            <li>
+              <span class="stat-num">68%</span>
+              <span class="stat-label">fewer tokens than MIPROv2 on a 5-agent DSPy pipeline, at <span class="nowrap">+0.052</span> quality</span>
+            </li>
+            <li>
+              <span class="stat-num">0</span>
+              <span class="stat-label">per-pipeline engineering or training data required</span>
+            </li>
+          </ul>
+
+          <p>Even before compound mode fires, the runtime matches both hand-tuned and compile-time baselines through automatic policy resolution, cache-aligned prompts, and topology-aware context injection — without per-model configuration.</p>
+        </div>
+
+        <div class="doc-actions">
+          <a class="open-canonical" href="https://arxiv.org/abs/2605.00410" target="_blank" rel="noopener noreferrer">Open on arXiv <span class="arrow">↗</span></a>
+        </div>
+      </article>
+    </main>
+  </div>
+  <style>
+    .doc-header h1 {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -0.005em;
+      margin: 0 0 1rem;
+    }
+    .doc-meta {
+      font: 400 11px/1.5 var(--mono);
+      color: var(--text-faint);
+      margin: 0 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 18px;
+    }
+    .doc-meta div { display: inline; }
+    .doc-meta dt {
+      display: inline;
+      margin-right: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .doc-meta dd { display: inline; margin: 0; color: var(--text-muted); }
+    .doc-body p { font-size: 14px; line-height: 1.65; margin: 0 0 1rem; }
+    .doc-figure { margin: 1.25rem 0 1.5rem; }
+    .doc-figure img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 4px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .doc-figure img { filter: invert(0.92) hue-rotate(180deg); }
+    }
+    .doc-tldr {
+      font-family: var(--serif);
+      font-size: 17px !important;
+      line-height: 1.45 !important;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-left: 2px solid var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, transparent);
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 1.5rem !important;
+    }
+    .doc-tldr em { font-style: italic; }
+    .doc-stats {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+    }
+    .doc-stats li {
+      padding: 12px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 11.5px;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+    .nowrap { white-space: nowrap; }
+    .doc-related {
+      font-size: 12.5px !important;
+      color: var(--text-muted);
+      padding-top: 0.75rem;
+      margin-top: 0.5rem !important;
+      border-top: 1px dashed var(--rule);
+    }
+    .doc-related a { color: var(--text-muted); text-decoration-color: var(--rule); }
+    .doc-related a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+    .doc-actions {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .open-canonical {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: transform 120ms ease, filter 120ms ease;
+    }
+    .open-canonical:hover { filter: brightness(1.08); }
+    .open-canonical:hover .arrow { transform: translate(2px, -2px); }
+    .open-canonical .arrow { display: inline-block; transition: transform 160ms ease; }
+    @media (prefers-color-scheme: dark) { .open-canonical { color: var(--bg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .open-canonical, .open-canonical .arrow { transition: none; }
+    }
+  </style>
+</body>
+</html>

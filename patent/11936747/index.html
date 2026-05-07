@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud-based composable data layer — Aninda Ray</title>
+  <meta name="description" content="US Patent 11,936,747: Cloud-based composable data layer.">
+  <meta name="robots" content="index, follow, noarchive">
+  <link rel="canonical" href="https://anindaray.com/patent/11936747/">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root {
+      --bg: #fdfcfa;
+      --text: #1c1c1a;
+      --text-muted: #6b6a64;
+      --text-faint: #5d5b54;
+      --rule: rgba(28, 28, 26, 0.10);
+      --accent: #1f4ec5;
+      --focus: #ff6b00;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Iowan Old Style", "Charter", Georgia, Cambria, serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14140f;
+        --text: #ebe9e2;
+        --text-muted: #908d83;
+        --text-faint: #c0bdb1;
+        --rule: rgba(235, 233, 226, 0.12);
+        --accent: #7da9ff;
+        --focus: #ffb44f;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 400 14px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 1px; }
+    .page-frame { max-width: 56ch; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .back-link { font-size: 13px; color: var(--text-muted); margin: 0 0 2rem; }
+    .back-link a { color: var(--text-muted); text-decoration: none; }
+    .back-link a:hover { color: var(--accent); }
+    .doc-header h1 { font-family: var(--serif); font-size: 22px; font-weight: 400; line-height: 1.3; letter-spacing: -0.005em; margin: 0 0 1rem; }
+    .doc-meta { font: 400 11px/1.5 var(--mono); color: var(--text-faint); margin: 0 0 2rem; display: flex; flex-wrap: wrap; gap: 4px 18px; }
+    .doc-meta div { display: inline; }
+    .doc-meta dt { display: inline; margin-right: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .doc-meta dd { display: inline; margin: 0; color: var(--text-muted); }
+    .doc-body p { font-size: 14px; line-height: 1.65; margin: 0 0 1rem; }
+    .doc-tldr { font-family: var(--serif); font-size: 17px !important; line-height: 1.45 !important; color: var(--text); padding: 0.75rem 1rem; border-left: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 4%, transparent); border-radius: 0 4px 4px 0; margin-bottom: 1.5rem !important; }
+    .doc-figure { margin: 1.25rem 0 1.5rem; }
+    .doc-figure img { display: block; width: 100%; max-width: 600px; height: auto; margin: 0 auto; border-radius: 4px; }
+    @media (prefers-color-scheme: dark) {
+      .doc-figure img { filter: invert(0.92) hue-rotate(180deg); }
+    }
+    .doc-actions { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .open-canonical { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: 500; transition: filter 120ms ease; }
+    .open-canonical:hover { filter: brightness(1.08); }
+    .open-canonical:hover .arrow { transform: translate(2px, -2px); }
+    .open-canonical .arrow { display: inline-block; transition: transform 160ms ease; }
+    @media (prefers-color-scheme: dark) { .open-canonical { color: var(--bg); } }
+    @media (prefers-reduced-motion: reduce) { .open-canonical, .open-canonical .arrow { transition: none; } }
+
+    /* === Increased contrast (user-requested) === */
+    @media (prefers-contrast: more) {
+      :root {
+        --text-faint: #4a4942;
+        --text-muted: #2d2c28;
+        --rule: rgba(28, 28, 26, 0.32);
+      }
+    }
+    @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+      :root {
+        --text-faint: #d4d0c5;
+        --text-muted: #ebe7dc;
+        --rule: rgba(235, 233, 226, 0.32);
+      }
+    }
+    /* === Forced colors (Windows High Contrast Mode) === */
+    @media (forced-colors: active) {
+      body { background: Canvas; color: CanvasText; }
+      .entry-meta, .doc-meta, .doc-meta dt, .doc-meta dd { color: CanvasText; forced-color-adjust: none; }
+      a, .preview-link, .open-link { color: LinkText; }
+      .doc-tldr { background: Canvas; color: CanvasText; border-left-color: Highlight; }
+      .doc-stats li { border-color: CanvasText; }
+      .stat-num { color: Highlight; }
+      .open-canonical { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+      #doc-modal { border-left: 1px solid CanvasText; background: Canvas; }
+      .modal-progress { background: Highlight; }
+      .doc-figure img { forced-color-adjust: none; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page-frame">
+    <p class="back-link"><a href="/">← Aninda Ray</a></p>
+    <main>
+      <article class="doc">
+        <header class="doc-header">
+          <h1>Cloud-based composable data layer</h1>
+          <dl class="doc-meta">
+            <div><dt>Patent</dt><dd>US 11,936,747</dd></div>
+            <div><dt>Granted</dt><dd>Mar 2024</dd></div>
+            <div><dt>Family</dt><dd>also US 11,418,621 (Aug 2022)</dd></div>
+            <div><dt>Inventors (5)</dt><dd>Aninda Ray, Dmitriy Meyerzon, Knut Kristian Johansen, Ryan Antoine Nakhoul, Nikita Voronkov</dd></div>
+            <div><dt>Assignee</dt><dd>Microsoft Technology Licensing LLC</dd></div>
+          </dl>
+        </header>
+        <div class="doc-body">
+          <p class="doc-tldr">A single composite request lets a client app talk to multiple backend services at once, with each service streaming its response back on the same connection.</p>
+          <p>When a client sends a composite request that names actions across two or more backend services, the framework splits the request, dispatches each part to the right service, and streams responses back as separate transmissions on the same connection.</p>
+          <p>The app reads from one unified surface and doesn't have to orchestrate the fan-out itself. Each piece can start rendering as soon as it arrives, so heavy parts of the request don't block the lighter ones.</p>
+          <figure class="doc-figure">
+            <img loading="lazy" decoding="async" src="/patent/11936747/figures/fig-1.png" alt="Figure 1 from US 11,936,747: Cloud-based composable data layer">
+</figure>
+        </div>
+        <div class="doc-actions">
+          <a class="open-canonical" href="https://patents.google.com/patent/US11936747" target="_blank" rel="noopener noreferrer">Open on Google Patents <span class="arrow">↗</span></a>
+        </div>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
