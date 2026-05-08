@@ -76,7 +76,98 @@
       .doc-figure img { forced-color-adjust: none; }
     }
 
+    .doc-value { margin: 1.25rem 0 1.5rem; }
+    .doc-value-label {
+      font: 400 11px/1.4 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin: 0 0 0.5rem;
+    }
+    .doc-value ul {
+      list-style: none;
+      padding: 0 0 0 1rem;
+      margin: 0;
+      border-left: 2px solid var(--rule);
+    }
+    .doc-value li {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+    .doc-value li:last-child { margin-bottom: 0; }
+    .doc-value li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* === Larger viewports === */
+    @media (min-width: 1280px) {
+      .page { max-width: 1180px; }
+      #doc-modal { width: min(1080px, 65vw); }
+      .page-frame { max-width: 64ch; }
+    }
+    @media (min-width: 1600px) {
+      .page { max-width: 1280px; }
+      #doc-modal { width: min(1200px, 60vw); }
+      .hero h1 { font-size: 30px; }
+      .page-frame { max-width: 68ch; }
+    }
+    .open-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: none;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: border-color 120ms ease, color 120ms ease;
+    }
+    .open-secondary:hover { color: var(--accent); border-color: var(--accent); }
+    .open-secondary:hover .arrow { transform: translate(2px, -2px); }
+    .open-secondary .arrow { display: inline-block; transition: transform 160ms ease; }
+    @media (prefers-reduced-motion: reduce) { .open-secondary, .open-secondary .arrow { transition: none; } }
+    @media print {
+      body { background: #fff; color: #000; }
+      .back-link, .doc-actions, .modal-progress, .modal-close { display: none; }
+      .doc-tldr { background: none; border-left: 2px solid #888; color: #000; padding-left: 0.5rem; }
+      .doc-figure img { filter: none !important; max-width: 100%; }
+      .doc-stats li { border-color: #ccc; }
+      .stat-num { color: #000; }
+      .doc-value-label, .doc-meta dt, .doc-meta dd { color: #333; }
+      .doc-value ul { border-left-color: #888; }
+      a { color: #000; text-decoration: underline; }
+      a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 0.85em; color: #555; }
+    }
   </style>
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Agent Capsules: Quality-Gated Granularity Control for Multi-Agent LLM Pipelines">
+  <meta property="og:description" content="A research paper on quality-gated granularity control for multi-agent LLM pipelines.">
+  <meta property="og:url" content="https://anindaray.com/research/agent-capsules/">
+  <meta property="og:image" content="https://anindaray.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://anindaray.com/og-image.png">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Agent Capsules: Quality-Gated Granularity Control for Multi-Agent LLM Pipelines",
+  "name": "Agent Capsules: Quality-Gated Granularity Control for Multi-Agent LLM Pipelines",
+  "author": { "@type": "Person", "name": "Aninda Ray", "sameAs": "https://orcid.org/0009-0007-3029-8265" },
+  "datePublished": "2026-05-01",
+  "url": "https://anindaray.com/research/agent-capsules/",
+  "identifier": "arXiv:2605.00410",
+  "isAccessibleForFree": true,
+  "publisher": { "@type": "Organization", "name": "arXiv" }
+}
+  </script>
 </head>
 <body>
   <div class="page-frame">
@@ -122,8 +213,17 @@
           <p>Even before compound mode fires, the runtime matches both hand-tuned and compile-time baselines through automatic policy resolution, cache-aligned prompts, and topology-aware context injection — without per-model configuration.</p>
         </div>
 
+        <section class="doc-value" aria-label="In practice">
+          <p class="doc-value-label">In practice</p>
+          <ul>
+            <li><strong>For developers building multi-agent LLM pipelines:</strong> a drop-in replacement for hand-tuned orchestration. Write the pipeline once in a compact DSL; the runtime delivers improved quality and explicit control over the cost-versus-quality tradeoff.</li>
+            <li><strong>For cloud providers and platform teams:</strong> cost optimizations they can trust. Per-tenant quality floors gate every mode switch, so capacity freed from naive compound execution never dips below an agreed-on quality bar.</li>
+            <li><strong>For research:</strong> an empirical demonstration that escalating <em>down</em> to per-agent dispatch beats engineering merged-call prompts when output quality drops.</li>
+          </ul>
+        </section>
         <div class="doc-actions">
           <a class="open-canonical" href="https://arxiv.org/abs/2605.00410" target="_blank" rel="noopener noreferrer">Open on arXiv <span class="arrow">↗</span></a>
+          <a class="open-secondary" href="https://github.com/aray-17/agent-capsules" target="_blank" rel="noopener noreferrer">View code on GitHub <span class="arrow">↗</span></a>
         </div>
       </article>
     </main>

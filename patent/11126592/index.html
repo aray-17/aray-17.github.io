@@ -89,6 +89,56 @@
       .doc-figure img { forced-color-adjust: none; }
     }
 
+    .doc-value { margin: 1.25rem 0 1.5rem; }
+    .doc-value-label {
+      font: 400 11px/1.4 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin: 0 0 0.5rem;
+    }
+    .doc-value ul {
+      list-style: none;
+      padding: 0 0 0 1rem;
+      margin: 0;
+      border-left: 2px solid var(--rule);
+    }
+    .doc-value li {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+    .doc-value li:last-child { margin-bottom: 0; }
+    .doc-value li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* === Larger viewports === */
+    @media (min-width: 1280px) {
+      .page { max-width: 1180px; }
+      #doc-modal { width: min(1080px, 65vw); }
+      .page-frame { max-width: 64ch; }
+    }
+    @media (min-width: 1600px) {
+      .page { max-width: 1280px; }
+      #doc-modal { width: min(1200px, 60vw); }
+      .hero h1 { font-size: 30px; }
+      .page-frame { max-width: 68ch; }
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .back-link, .doc-actions, .modal-progress, .modal-close { display: none; }
+      .doc-tldr { background: none; border-left: 2px solid #888; color: #000; padding-left: 0.5rem; }
+      .doc-figure img { filter: none !important; max-width: 100%; }
+      .doc-stats li { border-color: #ccc; }
+      .stat-num { color: #000; }
+      .doc-value-label, .doc-meta dt, .doc-meta dd { color: #333; }
+      .doc-value ul { border-left-color: #888; }
+      a { color: #000; text-decoration: underline; }
+      a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 0.85em; color: #555; }
+    }
   </style>
 </head>
 <body>
@@ -114,6 +164,13 @@
             <img loading="lazy" decoding="async" src="/patent/11126592/figures/fig-1.png" alt="Figure 1 from US 11,126,592: Rapid indexing of document tags">
 </figure>
         </div>
+        <section class="doc-value" aria-label="In practice">
+          <p class="doc-value-label">In practice</p>
+          <ul>
+            <li><strong>For end users searching enterprise content:</strong> tag-driven filters and search reflect new and updated tags in real time, without waiting for batch reindexing.</li>
+            <li><strong>For platform operators:</strong> incremental index updates instead of corpus-wide rescans on every tag change.</li>
+          </ul>
+        </section>
         <div class="doc-actions">
           <a class="open-canonical" href="https://patents.google.com/patent/US11126592" target="_blank" rel="noopener noreferrer">Open on Google Patents <span class="arrow">↗</span></a>
         </div>

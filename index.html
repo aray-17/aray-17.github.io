@@ -13,7 +13,11 @@
   <meta property="og:title" content="Aninda Ray">
   <meta property="og:description" content="Engineering manager and researcher. Patents in web infrastructure, search, and offline-first single-page applications. Recent research on quality-gated runtimes for multi-agent LLM pipelines.">
   <meta property="og:locale" content="en_US">
-  <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://anindaray.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://anindaray.com/og-image.png">
   <meta name="twitter:title" content="Aninda Ray">
   <meta name="twitter:description" content="Patents in web infrastructure, search, and offline-first SPAs. Recent research on quality-gated multi-agent LLM runtimes.">
   <meta name="color-scheme" content="light dark">
@@ -501,7 +505,76 @@
       .doc-figure img { forced-color-adjust: none; }
     }
 
+    .doc-value { margin: 1.25rem 0 1.5rem; }
+    .doc-value-label {
+      font: 400 11px/1.4 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin: 0 0 0.5rem;
+    }
+    .doc-value ul {
+      list-style: none;
+      padding: 0 0 0 1rem;
+      margin: 0;
+      border-left: 2px solid var(--rule);
+    }
+    .doc-value li {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+    .doc-value li:last-child { margin-bottom: 0; }
+    .doc-value li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* === Larger viewports === */
+    @media (min-width: 1280px) {
+      .page { max-width: 1180px; }
+      #doc-modal { width: min(1080px, 65vw); }
+      .page-frame { max-width: 64ch; }
+    }
+    @media (min-width: 1600px) {
+      .page { max-width: 1280px; }
+      #doc-modal { width: min(1200px, 60vw); }
+      .hero h1 { font-size: 30px; }
+      .page-frame { max-width: 68ch; }
+    }
+    .open-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: none;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: border-color 120ms ease, color 120ms ease;
+    }
+    .open-secondary:hover { color: var(--accent); border-color: var(--accent); }
+    .open-secondary:hover .arrow { transform: translate(2px, -2px); }
+    .open-secondary .arrow { display: inline-block; transition: transform 160ms ease; }
+    @media (prefers-reduced-motion: reduce) { .open-secondary, .open-secondary .arrow { transition: none; } }
   </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Aninda Ray",
+  "url": "https://anindaray.com/",
+  "jobTitle": "Group Engineering Manager",
+  "worksFor": { "@type": "Organization", "name": "Microsoft" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Georgia Institute of Technology" },
+  "sameAs": [ "https://orcid.org/0009-0007-3029-8265" ],
+  "description": "Engineering manager and researcher. Patents in web infrastructure, search, and offline-first single-page applications. Recent research on quality-gated runtimes for multi-agent LLM pipelines."
+}
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -533,13 +606,13 @@
         <p class="lede">Owns more keyboards than necessary.</p>
       </header>
 
-      <section class="about" aria-label="About">
+      <section class="about" id="about" aria-label="About">
         <p>Nearly two decades shipping large-scale enterprise software. Roughly half of those leading high-performing teams that build it. The work lives inside the productivity software people rely on every day to do their jobs, with resilience built into the product.</p>
         <p>Recurring themes: Information Portals, search and intelligence, and advancing the web platform in ways that have earned more than a dozen granted patents. All of it serves the same people: information workers in their daily flow, frontline workers connecting from wherever they happen to be, IT admins stewarding it inside their organizations, and the developer community extending the platform.</p>
         <p>Lately, AI — as a way to find, ask, and reason over the information work depends on, and as a foundation people can build their own tools and agents on.</p>
       </section>
 
-      <section class="entries research" aria-labelledby="research-heading">
+      <section class="entries research" id="research" aria-labelledby="research-heading">
         <h2 id="research-heading">Research</h2>
         <ul>
           <li class="entry">
@@ -552,7 +625,7 @@
         </ul>
       </section>
 
-      <section class="entries patents" aria-labelledby="patents-heading">
+      <section class="entries patents" id="patents" aria-labelledby="patents-heading">
         <h2 id="patents-heading">Patents</h2>
         <ul>
           <li class="entry">
